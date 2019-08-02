@@ -34,6 +34,7 @@ const initialState = {
 }
 
 const getNewCoords = (direction, coords) => {
+    console.log(direction);
     switch (direction) {
         case DIRECTIONS.UP:
             return {...coords, lat: coords.lat + STEP}
@@ -43,6 +44,7 @@ const getNewCoords = (direction, coords) => {
             return {...coords, lng: coords.lng + STEP}
         case DIRECTIONS.LEFT:
             return {...coords, lng: coords.lng - STEP}
+        default: return coords;
     }
 }
 
@@ -50,7 +52,6 @@ const reducer = (state = initialState, action) => {
 
     switch (action.type) {
         case MOVE_UNIT_BY_STEP:
-
             return {...state,
                 units: state.units.map( u => {
                     if (u.id != action.unitId) return u;
@@ -69,7 +70,7 @@ const moveUnitByStep = (direction, unitId) => ({type: MOVE_UNIT_BY_STEP, directi
 
 const STEP = 0.0001;
 
-const move = (direction, unitId) => (dispatch, getState) => {
+export const move = (direction, unitId) => (dispatch, getState) => {
     setInterval(() => {
         dispatch(moveUnitByStep(direction, unitId));
 
