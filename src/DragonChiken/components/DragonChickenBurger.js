@@ -12,8 +12,18 @@ let DragonChickenBurgerView = ({center = {
     lat: 59.95,
     lng: 30.33
 }, zoom = 11, units = []}) => {
+
+    const onKeyDown = (e) => {
+
+    }
+    const onKeyUp = (e) => {
+
+    }
+
     return (
-            <div style={{ height: '100vh', width: '100%' }}>
+            <div style={{ height: '100vh', width: '100%' }}
+                 onKeyDown={onKeyDown}
+                 onKeyUp={onKeyUp}>
                 <GoogleMapReact
                     bootstrapURLKeys={{ key: "AIzaSyCRoKzLJBv0fq1Hqdmd-n-nZ4xOvURM8us" }}
                     defaultCenter={center}
