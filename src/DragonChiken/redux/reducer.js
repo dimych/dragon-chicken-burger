@@ -33,33 +33,35 @@ const initialState = {
 
 }
 
+const getNewCoords = (direction, coords) => {
+    switch (direction) {
+        case DIRECTIONS.UP:
+            return {...coords, lat: coords.lat + STEP}
+        case DIRECTIONS.DOWN:
+            return {...coords, lat: coords.lat - STEP}
+        case DIRECTIONS.RIGHT:
+            return {...coords, lng: coords.lng + STEP}
+        case DIRECTIONS.LEFT:
+            return {...coords, lng: coords.lng - STEP}
+    }
+}
+
 const reducer = (state = initialState, action) => {
 
-switch (action.type) {
-    case MOVE_UNIT_BY_STEP:
-        let unit = state.dragonChicken.units.find(u => u.id == action.unitId);
-        let newCoords = {...unit.coords};
+    switch (action.type) {
+        case MOVE_UNIT_BY_STEP:
 
-        switch (action.direction) {
-            case DIRECTIONS.UP:
-                newCoords.lat += STEP;
-                break;
-            case DIRECTIONS.DOWN:
-                newCoords.lat -= STEP;
-                break;
-            case DIRECTIONS.RIGHT:
-                newCoords.lng += STEP;
-                break;
-            case DIRECTIONS.LEFT:
-                newCoords.lng -= STEP;
-                break;
-        }
+            return {...state,
+                units: state.units.map( u => {
+                    if (u.id != action.unitId) return u;
+                    return { ...u, coords: getNewCoords(action.direction, u.coords)}
+                })
+            }
 
-        break;
-    default:
-        return state;
+        default:
+            return state;
 
-}
+    }
 
 }
 
