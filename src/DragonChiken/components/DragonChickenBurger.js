@@ -17,67 +17,40 @@ let DragonChickenBurgerView = ({
                                    move, stop
                                }) => {
 
-    const onKeyDown = (e) => {
-       console.log(e.key);
+    const unitsDirections = [{
+        id: 1,
+        directions: [
+            { direction: DIRECTIONS.UP, buttons: ["w","f"] },
+            { direction: DIRECTIONS.DOWN, buttons: ["s","v"] },
+            { direction: DIRECTIONS.RIGHT, buttons: ["d","c"] },
+            { direction: DIRECTIONS.LEFT, buttons: ["a","b"] },
+        ]
+    },
+        {
+            id: 2,
+            directions: [
+                { direction: DIRECTIONS.UP, buttons: ["i"] },
+                { direction: DIRECTIONS.DOWN, buttons: ["j"] },
+                { direction: DIRECTIONS.RIGHT, buttons: ["l"] },
+                { direction: DIRECTIONS.LEFT, buttons: ["k"] },
+            ]
+        }];
 
-        switch (e.key) {
-            case "w":
-                move(DIRECTIONS.UP, 1);
-                break;
-            case "s":
-                move(DIRECTIONS.DOWN, 1);
-                break;
-            case "d":
-                move(DIRECTIONS.RIGHT, 1);
-                break;
-            case "a":
-                move(DIRECTIONS.LEFT, 1);
-                break;
-        }
-        switch (e.key) {
-            case "i":
-                move(DIRECTIONS.UP, 2);
-                break;
-            case "j":
-                move(DIRECTIONS.DOWN, 2);
-                break;
-            case "l":
-                move(DIRECTIONS.RIGHT, 2);
-                break;
-            case "k":
-                move(DIRECTIONS.LEFT, 2);
-                break;
-        }
+    const makeAction = (e, action) => {
+        unitsDirections.forEach(u => {
+            u.directions.forEach(d => {
+                d.buttons.forEach(b => {
+                    if (b == e.key)  action(d.direction, u.id);
+                })
+            })
+        })
+    }
+
+    const onKeyDown = (e) => {
+        makeAction(e, move);
     }
     const onKeyUp = (e) => {
-        switch (e.key) {
-            case "w":
-                stop(DIRECTIONS.UP, 1);
-                break;
-            case "s":
-                stop(DIRECTIONS.DOWN, 1);
-                break;
-            case "d":
-                stop(DIRECTIONS.RIGHT, 1);
-                break;
-            case "a":
-                stop(DIRECTIONS.LEFT, 1);
-                break;
-        }
-        switch (e.key) {
-            case "i":
-                stop(DIRECTIONS.UP, 2);
-                break;
-            case "j":
-                stop(DIRECTIONS.DOWN, 2);
-                break;
-            case "l":
-                stop(DIRECTIONS.RIGHT, 2);
-                break;
-            case "k":
-                stop(DIRECTIONS.LEFT, 2);
-                break;
-        }
+        makeAction(e, stop);
     }
 
     return (
